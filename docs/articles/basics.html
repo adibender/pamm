@@ -105,7 +105,7 @@
       <h1>Basic Modeling</h1>
                         <h4 class="author">Andreas Bender</h4>
             
-            <h4 class="date">2017-10-09</h4>
+            <h4 class="date">2017-10-18</h4>
           </div>
 
     
@@ -122,7 +122,7 @@
 <p>The strength of the PEM is that analysis of time-to-event data can be performed using algorithms designed to fit Generalized Linear Models. This approach yields equivalent coefficient estimates as Cox Proportional Hazards models if</p>
 <ol style="list-style-type: decimal">
 <li><p>there are no ties (i.e., simultaneous events) in the data and</p></li>
-<li><p>all unique event (and censoring) times are used as interval cut points in order to transform the data into the format suitable for PEMs (see <code><a href="../reference/split_data.html">?split_data</a></code> and <a href="data-transformation.html"><code><a href="https://cran.rstudio.com/web/packages/pam/vignettes/data-transformation.html">vignette("data-transformation", package = "pam")</a></code></a>).</p></li>
+<li><p>all unique event (and censoring) times are used as interval cut points in order to transform the data into the format suitable for PEMs (see <code><a href="http://www.rdocumentation.org/packages/pamm/topics/split_data">?split_data</a></code> and <a href="data-transformation.html"><code>vignette("data-transformation", package = "pam")</code></a>).</p></li>
 </ol>
 <p>Estimates between the two approaches can differ due to a more crude handling of ties in the PEM approach <span class="citation">(Whitehead 1980)</span>. In practice these differences are not very large (see examples below).</p>
 <div id="subset-with-unique-event-times" class="section level3">
@@ -136,8 +136,8 @@
 
 <span class="kw">data</span>(<span class="st">"veteran"</span>, <span class="dt">package =</span> <span class="st">"survival"</span>)
 <span class="co"># remove ties to illustrate equivalence with Cox approach</span>
-vetu &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dplyr_verbs.html">filter</a></span>(veteran, !<span class="kw">duplicated</span>(time))
-vetu.ped &lt;-<span class="st"> </span><span class="kw"><a href="../reference/split_data.html">split_data</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status)~., <span class="dt">cut =</span> <span class="kw">unique</span>(vetu$time),
+vetu &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/dplyr_verbs">filter</a></span>(veteran, !<span class="kw">duplicated</span>(time))
+vetu.ped &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/split_data">split_data</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status)~., <span class="dt">cut =</span> <span class="kw">unique</span>(vetu$time),
     <span class="dt">data =</span> vetu, <span class="dt">id =</span> <span class="st">"id"</span>)
 pem.age &lt;-<span class="st"> </span><span class="kw">glm</span>(ped_status ~<span class="st"> </span>interval -<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span>age, <span class="dt">data =</span> vetu.ped,
     <span class="dt">family =</span> <span class="kw">poisson</span>(), <span class="dt">offset =</span> offset)
@@ -156,7 +156,7 @@ cph.age &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocu
 <a href="#full-data-set" class="anchor"></a>Full data set</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Using the full data set (with ties) yields slightly different results
 <span class="co"># when comparing PEM to Cox-PH</span>
-vet.ped &lt;-<span class="st"> </span><span class="kw"><a href="../reference/split_data.html">split_data</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status)~., <span class="dt">cut =</span> <span class="kw">unique</span>(veteran$time),
+vet.ped &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/split_data">split_data</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status)~., <span class="dt">cut =</span> <span class="kw">unique</span>(veteran$time),
     <span class="dt">data =</span> veteran, <span class="dt">id =</span> <span class="st">"id"</span>)
 pem2.age &lt;-<span class="st"> </span><span class="kw">glm</span>(ped_status ~<span class="st"> </span>interval -<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span>age, <span class="dt">data =</span> vet.ped,
     <span class="dt">family =</span> <span class="kw">poisson</span>(), <span class="dt">offset =</span> offset)

@@ -167,7 +167,7 @@ in <code>n</code> values from minimum to maximum.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Extracts information from <code>ped</code>, using
-  <code><a href='sample_info.html'>sample_info</a></code>. If variables are specified with specific values
+  <code>sample_info</code>. If variables are specified with specific values
   in <code>...</code>, the values in from <code>sample_info</code> will be overwritten.
   If variables are provided in <code>expand</code>, these will be expanded from <code>min</code> to
   <code>max</code> using in <code>n</code> equidistant steps.</p>
@@ -180,7 +180,7 @@ in <code>n</code> values from minimum to maximum.</p></td>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>make_newdata</span>(<span class='kw'>Sepal.Length</span><span class='kw'>=</span><span class='fl'>5</span>)
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>make_newdata</span>(<span class='kw'>Sepal.Length</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>10</span>), <span class='kw'>Sepal.Width</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>5.1</span>, <span class='fl'>5.2</span>))
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>make_newdata</span>(<span class='kw'>Sepal.Length</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>10</span>), <span class='kw'>expand</span><span class='kw'>=</span><span class='st'>"Sepal.Width"</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fl'>5</span>)
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='dplyr_verbs.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>make_newdata</span>(<span class='kw'>Sepal.Length</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>10</span>), <span class='kw'>expand</span><span class='kw'>=</span><span class='st'>"Sepal.Width"</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fl'>5</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>print</span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>30</span>)
 <span class='co'># }</span></pre>

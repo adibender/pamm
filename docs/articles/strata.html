@@ -105,7 +105,7 @@
       <h1>Stratified baseline</h1>
                         <h4 class="author">Andreas Bender</h4>
             
-            <h4 class="date">2017-10-09</h4>
+            <h4 class="date">2017-10-18</h4>
           </div>
 
     
@@ -127,10 +127,10 @@ Set1 &lt;-<span class="st"> </span>RColorBrewer::<span class="kw">brewer.pal</sp
 <p>For illustration we again use the <code>veteran</code> data (censored at day 400) from the <code>survival</code> package, where the celltype of the lung cancer had four levels:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">"veteran"</span>)
 veteran %&lt;&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(
     <span class="dt">trt   =</span> <span class="dv">1</span>*(trt ==<span class="st"> </span><span class="dv">2</span>),
     <span class="dt">prior =</span> <span class="dv">1</span>*(prior==<span class="dv">10</span>)) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">filter</a></span>(time &lt;<span class="st"> </span><span class="dv">400</span>) <span class="co"># restriction for illustration</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(time &lt;<span class="st"> </span><span class="dv">400</span>) <span class="co"># restriction for illustration</span>
 <span class="kw">table</span>(veteran$celltype)</code></pre></div>
 <pre><code>## 
 ##  squamous smallcell     adeno     large 
@@ -153,16 +153,16 @@ baseline_gg +<span class="st"> </span><span class="kw"><a href="http://www.rdocu
 <a href="#stratified-pam" class="anchor"></a>Stratified PAM</h3>
 <p>We can obtain similar results with PAMs by fitting one smooth baseline estimate for each category of <code>celltype</code> in the data. Technically, we specify the <code>by</code> argument in <code>mgcv</code> <code><a href="http://www.rdocumentation.org/packages/mgcv/topics/s">s(...)</a></code> function.</p>
 <p>Note that in contrast to the model specification in <code>coxph</code> we need to include the <code>celltype</code> factor variable in the model specification:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ped &lt;-<span class="st"> </span><span class="kw"><a href="../reference/split_data.html">split_data</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status)~., <span class="dt">data=</span>veteran, <span class="dt">id=</span><span class="st">"id"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ped &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/split_data">split_data</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, status)~., <span class="dt">data=</span>veteran, <span class="dt">id=</span><span class="st">"id"</span>)
 pam &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/mgcv/topics/gam">gam</a></span>(ped_status ~<span class="st"> </span>celltype +<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/mgcv/topics/s">s</a></span>(tend, <span class="dt">by=</span>celltype), <span class="dt">data=</span>ped,
     <span class="dt">family=</span><span class="kw">poisson</span>(), <span class="dt">offset=</span>offset)</code></pre></div>
 <p>Comparing the estimated baselines we get very similar results between the stratified Cox and stratified PAM models.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pinf &lt;-<span class="st"> </span>ped %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">group_by</a></span>(celltype) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/ped_info.html">ped_info</a></span>() %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/add_hazard.html">add_cumhazard</a></span>(pam) %&gt;%
-<span class="st">    </span><span class="kw"><a href="../reference/dplyr_verbs.html">rename</a></span>(<span class="dt">strata=</span>celltype) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">filter</a></span>(!(strata ==<span class="st"> "adeno"</span> &amp;<span class="st"> </span>tend &gt;<span class="st"> </span><span class="dv">200</span>))
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(celltype) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/ped_info">ped_info</a></span>() %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/add_hazard">add_cumhazard</a></span>(pam) %&gt;%
+<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">rename</a></span>(<span class="dt">strata=</span>celltype) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(!(strata ==<span class="st"> "adeno"</span> &amp;<span class="st"> </span>tend &gt;<span class="st"> </span><span class="dv">200</span>))
 baseline_gg +<span class="st">   </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">col=</span><span class="st">"Nelson-Aalen"</span>) +
 <span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>(<span class="dt">data=</span>pinf, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>tend, <span class="dt">y=</span>cumhazard, <span class="dt">group=</span>strata, <span class="dt">col=</span><span class="st">"PAM"</span>)) +
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_ribbon">geom_ribbon</a></span>(<span class="dt">data=</span>pinf, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>tend, <span class="dt">ymin=</span>cumlower, <span class="dt">ymax =</span> cumupper,

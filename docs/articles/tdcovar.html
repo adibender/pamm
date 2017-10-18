@@ -105,7 +105,7 @@
       <h1>Time-dependent covariates</h1>
                         <h4 class="author">Andreas Bender</h4>
             
-            <h4 class="date">2017-10-09</h4>
+            <h4 class="date">2017-10-18</h4>
           </div>
 
     
@@ -129,7 +129,7 @@ Set1 &lt;-<span class="st"> </span>RColorBrewer::<span class="kw">brewer.pal</sp
 recidivism &lt;-<span class="st"> </span><span class="kw">read.table</span>(
     <span class="dt">file   =</span> <span class="st">"http://math.unm.edu/~james/Rossi.txt"</span>,
     <span class="dt">header =</span> <span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(<span class="dt">subject=</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/ranking.html">row_number</a></span>())</code></pre></div>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">subject=</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/ranking.html">row_number</a></span>())</code></pre></div>
 <div id="data-preprocessing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-preprocessing" class="anchor"></a>Data preprocessing</h3>
@@ -137,19 +137,19 @@ recidivism &lt;-<span class="st"> </span><span class="kw">read.table</span>(
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># transform into long format</span>
 recidivism_long &lt;-<span class="st"> </span>recidivism %&gt;%
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/gather">gather</a></span>(calendar.week, employed, emp1:emp52) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">filter</a></span>(!<span class="kw">is.na</span>(employed)) %&gt;%<span class="st"> </span><span class="co"># employed unequal to NA only for intervals under risk</span>
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">group_by</a></span>(subject) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(!<span class="kw">is.na</span>(employed)) %&gt;%<span class="st"> </span><span class="co"># employed unequal to NA only for intervals under risk</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(subject) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(
     <span class="dt">start  =</span> <span class="kw"><a href="http://dplyr.tidyverse.org/reference/ranking.html">row_number</a></span>()-<span class="dv">1</span>,
     <span class="dt">stop   =</span> <span class="kw"><a href="http://dplyr.tidyverse.org/reference/ranking.html">row_number</a></span>(),
     <span class="dt">arrest =</span> <span class="kw">ifelse</span>(stop ==<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/nth.html">last</a></span>(stop) &amp;<span class="st"> </span>arrest ==<span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),
     <span class="dt">offset =</span> <span class="kw">log</span>(stop -<span class="st"> </span>start)) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">select</a></span>(subject, start, stop, offset, arrest, employed, fin:educ) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">arrange</a></span>(subject, stop)
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(subject, start, stop, offset, arrest, employed, fin:educ) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(subject, stop)
 recidivism_long %&lt;&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(<span class="dt">employed.lag1 =</span> <span class="kw"><a href="http://dplyr.tidyverse.org/reference/lead-lag.html">lag</a></span>(employed, <span class="dt">default=</span><span class="dv">0</span>)) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">slice</a></span>(-<span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="co"># exclusion of first week, as lagged information is missing</span>
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">ungroup</a></span>()</code></pre></div>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">employed.lag1 =</span> <span class="kw"><a href="http://dplyr.tidyverse.org/reference/lead-lag.html">lag</a></span>(employed, <span class="dt">default=</span><span class="dv">0</span>)) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(-<span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="co"># exclusion of first week, as lagged information is missing</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>()</code></pre></div>
 </div>
 <div id="fitting-the-models" class="section level3">
 <h3 class="hasAnchor">
@@ -159,7 +159,7 @@ recidivism_long %&lt;&gt;%
 pam &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/mgcv/topics/gam">gam</a></span>(arrest ~<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/mgcv/topics/s">s</a></span>(stop) +<span class="st"> </span>fin +<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/mgcv/topics/s">s</a></span>(age, <span class="dt">bs=</span><span class="st">"ps"</span>) +<span class="st"> </span>race +<span class="st"> </span>wexp +<span class="st"> </span>mar +<span class="st"> </span>paro +
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/mgcv/topics/s">s</a></span>(prio, <span class="dt">bs=</span><span class="st">"ps"</span>) +<span class="st"> </span>employed.lag1,
   <span class="dt">data=</span>recidivism_long, <span class="dt">family=</span><span class="kw">poisson</span>(), <span class="dt">offset=</span>offset)
-<span class="kw"><a href="../reference/tidy_fixed.html">tidy_fixed</a></span>(pam)</code></pre></div>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/tidy_fixed">tidy_fixed</a></span>(pam)</code></pre></div>
 <pre><code>## # A tibble: 6 x 4
 ##   variable         coef  lower   upper
 ##   &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
@@ -175,7 +175,7 @@ cph &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocument
 <span class="st">    </span>paro +<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/pspline">pspline</a></span>(prio) +<span class="st"> </span>employed.lag1,
   <span class="dt">data=</span>recidivism_long)
 <span class="co"># extract information on fixed coefficients</span>
-<span class="kw"><a href="../reference/tidy_fixed.html">tidy_fixed</a></span>(cph)[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>:<span class="dv">7</span>, <span class="dv">10</span>), ]</code></pre></div>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/tidy_fixed">tidy_fixed</a></span>(cph)[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>:<span class="dv">7</span>, <span class="dv">10</span>), ]</code></pre></div>
 <pre><code>## # A tibble: 6 x 4
 ##   variable          coef  lower   upper
 ##   &lt;chr&gt;            &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
@@ -193,10 +193,10 @@ cph &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocument
 <p><details><summary>Expand here for R-Code</summary></details></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">all_eff &lt;-<span class="st"> </span>purrr::<span class="kw">map_df</span>(
   <span class="kw">list</span>(
-    <span class="kw"><a href="../reference/tidy_fixed.html">tidy_fixed</a></span>(pam),
-    <span class="kw"><a href="../reference/tidy_fixed.html">tidy_fixed</a></span>(cph)[-<span class="kw">c</span>(<span class="dv">2</span>:<span class="dv">3</span>, <span class="dv">8</span>:<span class="dv">9</span>), ]),
+    <span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/tidy_fixed">tidy_fixed</a></span>(pam),
+    <span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/tidy_fixed">tidy_fixed</a></span>(cph)[-<span class="kw">c</span>(<span class="dv">2</span>:<span class="dv">3</span>, <span class="dv">8</span>:<span class="dv">9</span>), ]),
   bind_rows, <span class="dt">.id=</span><span class="st">"Model"</span>) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(<span class="dt">Model =</span> <span class="kw">factor</span>(Model, <span class="dt">levels=</span><span class="dv">2</span>:<span class="dv">1</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">"Cox-PH"</span>, <span class="st">"PAM"</span>)))
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">Model =</span> <span class="kw">factor</span>(Model, <span class="dt">levels=</span><span class="dv">2</span>:<span class="dv">1</span>, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">"Cox-PH"</span>, <span class="st">"PAM"</span>)))
 
 ## plot of fixed coefficients
 coef_gg &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(all_eff, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>coef, <span class="dt">ymin=</span>lower, <span class="dt">ymax=</span>upper)) +
@@ -218,11 +218,11 @@ coef_gg &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocu
 ## to visualize smooth effect of age, create data set where all covariates are
 ## fixed to mean values except for age, which varies between min and max
 ## (n = 100)
-age_df &lt;-<span class="st"> </span>recidivism_long %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/newdata.html">make_newdata</a></span>(<span class="dt">expand=</span><span class="st">"age"</span>, <span class="dt">n=</span><span class="dv">100</span>)
+age_df &lt;-<span class="st"> </span>recidivism_long %&gt;%<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/newdata">make_newdata</a></span>(<span class="dt">expand=</span><span class="st">"age"</span>, <span class="dt">n=</span><span class="dv">100</span>)
 
 ## add information on contribution of age to linear predictor (partial effect of age)
-age_df %&lt;&gt;%<span class="st"> </span><span class="kw"><a href="../reference/add_term.html">add_term</a></span>(pam, <span class="dt">term=</span><span class="st">"age"</span>) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(<span class="dt">cphfit =</span> <span class="kw">predict</span>(<span class="dt">object=</span>cph, ., <span class="dt">type=</span><span class="st">"terms"</span>)[,<span class="st">"pspline(age)"</span>])
+age_df %&lt;&gt;%<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/add_term">add_term</a></span>(pam, <span class="dt">term=</span><span class="st">"age"</span>) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">cphfit =</span> <span class="kw">predict</span>(<span class="dt">object=</span>cph, ., <span class="dt">type=</span><span class="st">"terms"</span>)[,<span class="st">"pspline(age)"</span>])
 
 ## prep plot object for smooth effects
 smooth_gg &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(age_df, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">y=</span>fit)) +
@@ -238,9 +238,9 @@ age_gg &lt;-<span class="st"> </span>smooth_gg +<span class="st"> </span><span c
 
 
 ## same as "age"" for "prio" variable
-prio_df &lt;-<span class="st"> </span>recidivism_long %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/newdata.html">make_newdata</a></span>(<span class="dt">expand=</span><span class="st">"prio"</span>, <span class="dt">n=</span><span class="dv">100</span>)
-prio_df %&lt;&gt;%<span class="st"> </span><span class="kw"><a href="../reference/add_term.html">add_term</a></span>(pam, <span class="dt">term=</span><span class="st">"prio"</span>) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(<span class="dt">cphfit =</span> <span class="kw">predict</span>(<span class="dt">object=</span>cph, ., <span class="dt">type=</span><span class="st">"terms"</span>)[,<span class="dv">7</span>])
+prio_df &lt;-<span class="st"> </span>recidivism_long %&gt;%<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/newdata">make_newdata</a></span>(<span class="dt">expand=</span><span class="st">"prio"</span>, <span class="dt">n=</span><span class="dv">100</span>)
+prio_df %&lt;&gt;%<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/add_term">add_term</a></span>(pam, <span class="dt">term=</span><span class="st">"prio"</span>) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">cphfit =</span> <span class="kw">predict</span>(<span class="dt">object=</span>cph, ., <span class="dt">type=</span><span class="st">"terms"</span>)[,<span class="dv">7</span>])
 
 ## plot of the prio effect
 prio_gg &lt;-<span class="st"> </span>smooth_gg %+%<span class="st"> </span>prio_df +<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>prio) +
@@ -302,15 +302,15 @@ fit2 &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumen
 <p>First we need to transform the data to PED format. In order to do so we perform some minor preprocessing:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## data set that only contains baseline (t=0) information
 event_df &lt;-<span class="st"> </span>pbc %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">filter</a></span>(id &lt;=<span class="st"> </span><span class="dv">312</span>) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(<span class="dt">event =</span> <span class="dv">1</span>*(status==<span class="dv">2</span>)) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">select</a></span>(id, time, event, trt, age, sex, bili, protime)
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(id &lt;=<span class="st"> </span><span class="dv">312</span>) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">event =</span> <span class="dv">1</span>*(status==<span class="dv">2</span>)) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, time, event, trt, age, sex, bili, protime)
 
 ## we rename the "day" variable here for use of `split_tdc` function later
 tdc_df &lt;-<span class="st"> </span>pbcseq %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">select</a></span>(id, day, bili, protime) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">rename</a></span>(<span class="dt">time =</span> day)</code></pre></div>
-<p>Now we can use the <code><a href="../reference/split_tdc.html">?split_tdc</a></code> function, that needs both data sets, <code>event_df</code>, that contains time-to-event information and one row per subject and <code>tdc_df</code> that contains information on timing and value of time-dependent covariates.</p>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, day, bili, protime) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">rename</a></span>(<span class="dt">time =</span> day)</code></pre></div>
+<p>Now we can use the <code><a href="http://www.rdocumentation.org/packages/pamm/topics/split_tdc">?split_tdc</a></code> function, that needs both data sets, <code>event_df</code>, that contains time-to-event information and one row per subject and <code>tdc_df</code> that contains information on timing and value of time-dependent covariates.</p>
 <p>The <code>split_tdc</code> function performs the following tasks:</p>
 <ul>
 <li>extract unique event times as well as all measurement times of the TDCs</li>
@@ -318,16 +318,16 @@ tdc_df &lt;-<span class="st"> </span>pbcseq %&gt;%
 <li>merge the expanded data set with the data set containing information on TDCs by ID and time</li>
 <li>fill in the values of TDCs for any time-points that did not occur in <code>tdc_df</code> by carrying the respective previous value of the TDC forward.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pbc_ped &lt;-<span class="st"> </span><span class="kw"><a href="../reference/split_tdc.html">split_tdc</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, event) ~., event_df, tdc_df, <span class="st">"id"</span>, <span class="st">"time"</span>, <span class="st">"status"</span>)
-<span class="kw"><a href="../reference/dplyr_verbs.html">filter</a></span>(tdc_df, id==<span class="dv">17</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pbc_ped &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/split_tdc">split_tdc</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, event) ~., event_df, tdc_df, <span class="st">"id"</span>, <span class="st">"time"</span>, <span class="st">"status"</span>)
+<span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(tdc_df, id==<span class="dv">17</span>)</code></pre></div>
 <pre><code>##   id time bili protime
 ## 1 17    0  2.7    10.5
 ## 2 17  364  4.5    10.6
 ## 3 17  673 13.6    12.1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pbc_ped %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">filter</a></span>(id==<span class="dv">17</span>) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(id==<span class="dv">17</span>) %&gt;%
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">semi_join</a></span>(tdc_df, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">"id"</span>, <span class="st">"tstart"</span>=<span class="st">"time"</span>)) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">select</a></span>(id, interval, age, bili, protime)</code></pre></div>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, interval, age, bili, protime)</code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ## # Groups:   id [1]
 ##      id interval    age  bili protime
@@ -348,10 +348,10 @@ tdc_df &lt;-<span class="st"> </span>pbcseq %&gt;%
 ## note that we use relative = TRUE in the call to add_term, which calculates
 ## the relative risk change (x - \bar{x})'\beta for comparison with predict.coxph
 ## (see also Details section in ?predict.coxph)
-bili_df &lt;-<span class="st"> </span>pbc_ped %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/dplyr_verbs.html">ungroup</a></span>() %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/newdata.html">make_newdata</a></span>(<span class="dt">expand=</span><span class="st">"bili"</span>, <span class="dt">n =</span> <span class="dv">100</span>) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/add_term.html">add_term</a></span>(pbc_pam, <span class="dt">term=</span><span class="st">"bili"</span>, <span class="dt">relative=</span><span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(<span class="dt">cox =</span> <span class="kw">predict</span>(fit2, ., <span class="dt">type=</span><span class="st">"term"</span>)[, <span class="st">"log(bili)"</span>])
+bili_df &lt;-<span class="st"> </span>pbc_ped %&gt;%<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/newdata">make_newdata</a></span>(<span class="dt">expand=</span><span class="st">"bili"</span>, <span class="dt">n =</span> <span class="dv">100</span>) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/add_term">add_term</a></span>(pbc_pam, <span class="dt">term=</span><span class="st">"bili"</span>, <span class="dt">relative=</span><span class="ot">TRUE</span>) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">cox =</span> <span class="kw">predict</span>(fit2, ., <span class="dt">type=</span><span class="st">"term"</span>)[, <span class="st">"log(bili)"</span>])
 
 bili_gg &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(bili_df, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>bili, <span class="dt">y=</span>fit)) +
 <span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">col=</span><span class="st">"PAM"</span>)) +
@@ -360,10 +360,10 @@ bili_gg &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocu
 <span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_manual">scale_colour_manual</a></span>(<span class="dt">name=</span><span class="st">"Method"</span>, <span class="dt">values=</span><span class="kw">c</span>(<span class="st">"#E41A1C"</span>, <span class="st">"#000000"</span>))
 
 ## Effect of protime
-protime_df &lt;-<span class="st"> </span>pbc_ped %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/dplyr_verbs.html">ungroup</a></span>() %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/newdata.html">make_newdata</a></span>(<span class="dt">expand=</span><span class="st">"protime"</span>, <span class="dt">n =</span> <span class="dv">100</span>) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/add_term.html">add_term</a></span>(pbc_pam, <span class="dt">term=</span><span class="st">"protime"</span>, <span class="dt">relative=</span><span class="ot">TRUE</span>) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/dplyr_verbs.html">mutate</a></span>(<span class="dt">cox =</span> <span class="kw">predict</span>(fit2, ., <span class="dt">type=</span><span class="st">"term"</span>)[, <span class="st">"log(protime)"</span>])
+protime_df &lt;-<span class="st"> </span>pbc_ped %&gt;%<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/newdata">make_newdata</a></span>(<span class="dt">expand=</span><span class="st">"protime"</span>, <span class="dt">n =</span> <span class="dv">100</span>) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/pamm/topics/add_term">add_term</a></span>(pbc_pam, <span class="dt">term=</span><span class="st">"protime"</span>, <span class="dt">relative=</span><span class="ot">TRUE</span>) %&gt;%
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">cox =</span> <span class="kw">predict</span>(fit2, ., <span class="dt">type=</span><span class="st">"term"</span>)[, <span class="st">"log(protime)"</span>])
 
 protime_gg &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(protime_df, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x=</span>protime, <span class="dt">y=</span>fit)) +
 <span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">col=</span><span class="st">"PAM"</span>)) +
