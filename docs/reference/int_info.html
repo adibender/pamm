@@ -68,6 +68,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/aalen-comparison.html">Comparison to Aalen Models</a>
+    </li>
+    <li>
       <a href="../articles/baseline.html">Baseline Hazard</a>
     </li>
     <li>
@@ -81,6 +84,9 @@
     </li>
     <li>
       <a href="../articles/frailty.html">Frailty and random effects</a>
+    </li>
+    <li>
+      <a href="../articles/model-evaluation.html">Model evaluation</a>
     </li>
     <li>
       <a href="../articles/splines.html">Splines</a>
@@ -178,14 +184,14 @@ length, interval mid-point and a factor variable of the intervals themselves.</p
 #&gt; 3    2.3  5.0    2.7   3.65  (2.3,5]</div><div class='input'>
 <span class='co'>## extract interval information used to create ped object</span>
 <span class='no'>tdf</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>time</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2.3</span>, <span class='fl'>5</span>), <span class='kw'>status</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0</span>))
-<span class='no'>ped</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='split_data.html'>split_data</a></span>(<span class='fu'>Surv</span>(<span class='no'>time</span>, <span class='no'>status</span>)~<span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>tdf</span>, <span class='kw'>id</span><span class='kw'>=</span><span class='st'>"id"</span>, <span class='kw'>max.end</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>ped</span> <span class='kw'>&lt;-</span> <span class='fu'>split_data</span>(<span class='fu'>Surv</span>(<span class='no'>time</span>, <span class='no'>status</span>)~<span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>tdf</span>, <span class='kw'>id</span><span class='kw'>=</span><span class='st'>"id"</span>, <span class='kw'>max.end</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'>int_info</span>(<span class='no'>ped</span>)</div><div class='output co'>#&gt;   tstart tend intlen intmid interval
 #&gt; 1    0.0  2.3    2.3   1.15  (0,2.3]
 #&gt; 2    2.3  5.0    2.7   3.65  (2.3,5]</div><div class='input'>
 <span class='co'>## extract interval information of ped that was used to fit the model</span>
 <span class='fu'>data</span>(<span class='st'>"veteran"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"survival"</span>)
-<span class='no'>vet_ped</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='split_data.html'>split_data</a></span>(<span class='fu'>Surv</span>(<span class='no'>time</span>, <span class='no'>status</span>)~<span class='no'>age</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>veteran</span>, <span class='kw'>cut</span><span class='kw'>=</span><span class='fu'>seq</span>(<span class='fl'>0</span>, <span class='fl'>500</span>, <span class='kw'>by</span><span class='kw'>=</span><span class='fl'>100</span>))
-<span class='no'>vet_pam</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pamm.html'>pamm</a></span>(<span class='no'>ped_status</span> ~ <span class='fu'>s</span>(<span class='no'>tend</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>3</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vet_ped</span>)
+<span class='no'>vet_ped</span> <span class='kw'>&lt;-</span> <span class='fu'>split_data</span>(<span class='fu'>Surv</span>(<span class='no'>time</span>, <span class='no'>status</span>)~<span class='no'>age</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>veteran</span>, <span class='kw'>cut</span><span class='kw'>=</span><span class='fu'>seq</span>(<span class='fl'>0</span>, <span class='fl'>500</span>, <span class='kw'>by</span><span class='kw'>=</span><span class='fl'>100</span>))
+<span class='no'>vet_pam</span> <span class='kw'>&lt;-</span> <span class='fu'>pamm</span>(<span class='no'>ped_status</span> ~ <span class='fu'>s</span>(<span class='no'>tend</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>3</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>vet_ped</span>)
 <span class='fu'>int_info</span>(<span class='no'>vet_pam</span>)</div><div class='output co'>#&gt;   tstart tend intlen intmid  interval
 #&gt; 1      0  100    100     50   (0,100]
 #&gt; 2    100  200    100    150 (100,200]

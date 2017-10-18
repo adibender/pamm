@@ -68,6 +68,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/aalen-comparison.html">Comparison to Aalen Models</a>
+    </li>
+    <li>
       <a href="../articles/baseline.html">Baseline Hazard</a>
     </li>
     <li>
@@ -81,6 +84,9 @@
     </li>
     <li>
       <a href="../articles/frailty.html">Frailty and random effects</a>
+    </li>
+    <li>
+      <a href="../articles/model-evaluation.html">Model evaluation</a>
     </li>
     <li>
       <a href="../articles/splines.html">Splines</a>
@@ -135,7 +141,7 @@ of events and censorings that occured in the interval, respectively.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ped</th>
-      <td><p>An object of class <code>ped</code> as returned by <code><a href='split_data.html'>split_data</a></code>.</p></td>
+      <td><p>An object of class <code>ped</code> as returned by <code>split_data</code>.</p></td>
     </tr>
     </table>
     
@@ -145,12 +151,12 @@ of events and censorings that occured in the interval, respectively.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='int_info.html'>int_info</a></code>, <code><a href='sample_info.html'>sample_info</a></code></p>
+    <p><code>int_info</code>, <code>sample_info</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"veteran"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"survival"</span>)
-<span class='no'>ped</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='split_data.html'>split_data</a></span>(<span class='fu'>Surv</span>(<span class='no'>time</span>, <span class='no'>status</span>)~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>veteran</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
+<span class='no'>ped</span> <span class='kw'>&lt;-</span> <span class='fu'>split_data</span>(<span class='fu'>Surv</span>(<span class='no'>time</span>, <span class='no'>status</span>)~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>veteran</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"id"</span>,
   <span class='kw'>cut</span> <span class='kw'>=</span> <span class='fu'>seq</span>(<span class='fl'>0</span>,<span class='fl'>400</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>100</span>))
 <span class='fu'>riskset_info</span>(<span class='no'>ped</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 4
 #&gt;   interval  ped_riskset ped_events ped_censored
@@ -158,7 +164,7 @@ of events and censorings that occured in the interval, respectively.</p>
 #&gt; 1 (0,100]           137      79.0             5
 #&gt; 2 (100,200]          53      26.0             3
 #&gt; 3 (200,300]          24      10.0             1
-#&gt; 4 (300,400]          13       7.00            6</div><div class='input'>(<span class='no'>riskset_celltype</span> <span class='kw'>&lt;-</span> <span class='fu'>riskset_info</span>(<span class='fu'><a href='dplyr_verbs.html'>group_by</a></span>(<span class='no'>ped</span>, <span class='no'>celltype</span>)))</div><div class='output co'>#&gt; # A tibble: 14 x 5
+#&gt; 4 (300,400]          13       7.00            6</div><div class='input'>(<span class='no'>riskset_celltype</span> <span class='kw'>&lt;-</span> <span class='fu'>riskset_info</span>(<span class='fu'>group_by</span>(<span class='no'>ped</span>, <span class='no'>celltype</span>)))</div><div class='output co'>#&gt; # A tibble: 14 x 5
 #&gt; # Groups:   celltype [4]
 #&gt;    celltype  interval  ped_riskset ped_events ped_censored
 #&gt;  * &lt;fctr&gt;    &lt;fctr&gt;          &lt;int&gt;      &lt;dbl&gt;        &lt;dbl&gt;
